@@ -25,7 +25,7 @@ function StopwatchScreen({ route, navigation }) {
           }
         }}
         getTime={(time) => {
-          console.log(time);
+          // console.log(time);
         }}
       />
       <Pressable
@@ -49,7 +49,6 @@ function StopwatchScreen({ route, navigation }) {
       {!isStopwatchStart && currentTime > 0 ? (
         <Pressable
           onPress={() => {
-            console.log("current time: ", currentTime);
             navigation.navigate("ManageLog", { timerDuration: currentTime });
           }}
         >

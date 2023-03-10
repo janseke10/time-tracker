@@ -1,24 +1,28 @@
 import { useContext, useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
-import { fetchLogs } from "../util/http";
+import { fetchLogsById } from "../util/http";
 import { LogsContext } from "../store/logs-context";
 import LogsOutput from "../components/LogsOutput/LogsOutput";
+import { AuthContext } from "../store/auth-context";
+import { getUserId } from "../util/auth";
+import AppLoading from "expo-app-loading";
 
 function AllLogsScreen() {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
-  //   const [fetchedLogs, setFetchedLogs] = useState([]);
 
   const logsCtx = useContext(LogsContext);
-
-  //   const logs = logsCtx.logs;
-  //   console.log("logs!: ", logs);
+  const authCtx = useContext(AuthContext);
   useEffect(() => {
+    const token = authCtx.token;
     async function getLogs() {
       setIsFetching(true);
       try {
-        const logs = await fetchLogs();
+        const id = await getUserId(token);
+        const logs = await fetchLogsById(id);
+
+        console.log("logs: ", logs);
         logsCtx.setLogs(logs);
       } catch (error) {
         setError("Could not fetch logs!");
@@ -28,6 +32,10 @@ function AllLogsScreen() {
 
     getLogs();
   }, []);
+
+  if (isFetching) {
+    return <AppLoading />;
+  }
 
   return (
     <View>

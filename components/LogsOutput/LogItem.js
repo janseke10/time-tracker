@@ -4,18 +4,12 @@ import { Colors } from "../../constants/colors";
 import { msToTime } from "../../util/formatDuration";
 
 function LogItem({ id, title, description, date, duration }) {
-  console.log(id, title, date, duration, description);
-
   const formattedDate = new Date(date).toLocaleString();
   const formattedDuration = msToTime(duration);
-
-  //   formattedDate.set(date);
-  console.log(formattedDate);
 
   const navigation = useNavigation();
 
   function LogPressHandler() {
-    console.log(id);
     navigation.navigate("ManageLog", {
       logId: id,
     });
@@ -24,7 +18,7 @@ function LogItem({ id, title, description, date, duration }) {
   return (
     <Pressable
       onPress={LogPressHandler}
-      style={({ pressed }) => pressed && styles.pressed}
+      style={({ pressed }) => (pressed ? styles.pressed : null)}
     >
       <View style={styles.logItem}>
         <View>

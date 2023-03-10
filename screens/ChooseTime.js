@@ -84,8 +84,6 @@ function ChooseTimeScreen({ navigation, route }) {
     let ss = firstSecondValue + secondSecondValue;
     const totalMilliseconds = hh * 3600000 + mm * 60000 + ss * 1000;
 
-    console.log(totalMilliseconds);
-
     navigation.navigate("Timer", { timerDuration: totalMilliseconds });
   }
 

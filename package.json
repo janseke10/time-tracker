@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-firebase/app": "^17.3.2",
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",
@@ -22,7 +23,9 @@
     "react-native-screens": "~3.18.0",
     "react-native-stopwatch-timer": "^0.0.21",
     "react-redux": "^8.0.5",
-    "realm": "^11.5.1"
+    "realm": "^11.5.1",
+    "expo-splash-screen": "~0.17.5",
+    "expo-app-loading": "~2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

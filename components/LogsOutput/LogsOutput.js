@@ -5,14 +5,9 @@ import LogsList from "./LogsList";
 
 function LogsOutput({ logs, fallbackText }) {
   let content = <Text style={styles.infoText}>{fallbackText}</Text>;
-
-  console.log("logsss", logs);
-  console.log(logs.length);
   if (logs.length > 0) {
     content = <LogsList logs={logs} />;
   }
-
-  console.log("content", content);
   return <View>{content}</View>;
 }
 

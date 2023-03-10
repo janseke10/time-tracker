@@ -8,12 +8,15 @@ import ErrorOverlay from "../components/UI/ErrorOverlay";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import IconButton from "../components/UI/IconButton";
 import { Colors } from "../constants/colors";
+import { getUserId } from "../util/auth";
+import { AuthContext } from "../store/auth-context";
 
 function ManageLogScreen({ route, navigation }) {
   const [error, setError] = useState();
   const [isUpdating, setIsUpdating] = useState(false);
 
   const logsCtx = useContext(LogsContext);
+  const authCtx = useContext(AuthContext);
 
   const duration = route.params.timerDuration;
 
@@ -43,11 +46,12 @@ function ManageLogScreen({ route, navigation }) {
   // logObject should be added to database here!
   async function confirmHandler(logData) {
     setIsUpdating(true);
+    const token = authCtx.token;
+    const userId = await getUserId(token);
     try {
       if (isEditing) {
         await updateLog(editedLogId, {
           ...logData,
-          id: editedLogId,
           date: selectedLog.date,
         });
         logsCtx.updateLog(editedLogId, {
@@ -56,8 +60,17 @@ function ManageLogScreen({ route, navigation }) {
           date: selectedLog.date,
         });
       } else {
-        const id = await storeLog(logData);
-        logsCtx.addLog({ ...logData, id: id, date: Date.now() });
+        const id = await storeLog({
+          ...logData,
+          date: Date.now(),
+          userId: userId,
+        });
+        logsCtx.addLog({
+          ...logData,
+          id: id,
+          date: Date.now(),
+          userId: userId,
+        });
       }
       navigation.navigate("AllLogs");
     } catch (error) {
@@ -86,7 +99,7 @@ function ManageLogScreen({ route, navigation }) {
         onSubmit={confirmHandler}
         defaultValues={isEditing ? selectedLog : { duration: duration }}
       />
-      {isEditing && (
+      {isEditing ? (
         <View style={styles.deleteContainer}>
           <IconButton
             icon="trash"
@@ -95,7 +108,7 @@ function ManageLogScreen({ route, navigation }) {
             onPress={deleteLogHandler}
           />
         </View>
-      )}
+      ) : null}
     </ScrollView>
   );
 }

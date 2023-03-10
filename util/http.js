@@ -10,20 +10,25 @@ export async function storeLog(logData) {
   return id;
 }
 
-export async function fetchLogs() {
-  const response = await axios.get(BACKEND_URL + "/logs.json");
-
+export async function fetchLogsById(userId) {
   const logs = [];
-  for (const key in response.data) {
-    const logObject = {
-      id: key,
-      title: response.data[key].title,
-      description: response.data[key].desciption,
-      date: new Date(response.data[key].date),
-      duration: response.data[key].duration,
-    };
-    logs.push(logObject);
+  const url = BACKEND_URL + `/logs.json?orderBy="userId"&equalTo="${userId}"`;
+  try {
+    const response = await axios.get(url);
+    for (const key in response.data) {
+      const logObject = {
+        id: key,
+        title: response.data[key].title,
+        description: response.data[key].description,
+        date: response.data[key].date,
+        duration: response.data[key].duration,
+      };
+      logs.push(logObject);
+    }
+  } catch (err) {
+    console.log(err);
   }
+
   return logs;
 }
 
