@@ -39,3 +39,13 @@ export function updateLog(id, logData) {
 export function deleteLog(id) {
   return axios.delete(BACKEND_URL + `/logs/${id}.json`);
 }
+
+export async function exportLogs() {
+  const url = BACKEND_URL + `/logs.json?downdload=logexport.txt`;
+  try {
+    const response = await axios.get(url);
+    console.log("ja hallo", response);
+  } catch (err) {
+    console.log(err);
+  }
+}

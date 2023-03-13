@@ -1,8 +1,19 @@
 import { Text, View, StyleSheet, Pressable } from "react-native";
-
 import { useState } from "react";
 import { Timer } from "react-native-stopwatch-timer";
+import * as Notifications from "expo-notifications";
+
 import { Colors } from "../constants/colors";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    };
+  },
+});
 
 function TimerScreen({ navigation, route }) {
   console.log("params: ", route.params);
@@ -12,7 +23,16 @@ function TimerScreen({ navigation, route }) {
   const [resetTimer, setResetTimer] = useState(false);
 
   function endTimerHandler() {
-    navigation.navigate("ManageLog", { timerDuration: timerDuration });
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Done!",
+        body: "The timer ended!",
+        data: { timerDuration: timerDuration },
+        vibrate: true,
+      },
+      trigger: null,
+    });
+    // navigation.navigate("ManageLog", { timerDuration: timerDuration });
   }
   return (
     <View style={styles.sectionStyle}>

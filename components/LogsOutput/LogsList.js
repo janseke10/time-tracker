@@ -13,7 +13,6 @@ function renderLogItem(itemData) {
 }
 
 function LogsList({ logs }) {
-  console.log("logs3 ", logs);
   return (
     <FlatList
       data={logs}

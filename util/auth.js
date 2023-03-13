@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY = "AIzaSyDJsk41aOsa5AcEpCmYLVwZLhu-66WCpaQ";
+import { API_KEY } from "../secret/apiKey";
 
 function getUrl(mode) {
   return `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${API_KEY}`;
